@@ -1,0 +1,24 @@
+{
+  "name": "remax-vx",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Remax Project",
+  "main": "index.js",
+  "keywords": [],
+  "author": "Innei <tukon479@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "remax build -t wechat -w",
+    "build": "cross-env NODE_ENV=production remax build -t wechat"
+  },
+  "dependencies": {
+    "lodash-es": "4.17.21",
+    "react": "^16.14.0",
+    "react-markdown": "6.0.2",
+    "remax": "^2.9.1",
+    "weui-miniprogram": "1.0.8"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
+  }
+}
