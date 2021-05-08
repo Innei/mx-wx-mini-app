@@ -1,4 +1,8 @@
-# Remax Wechat
+# Mix mini app
+
+![image](https://user-images.githubusercontent.com/41265413/117537019-03e29880-b031-11eb-843b-1e3931a61c66.png)
+![image](https://user-images.githubusercontent.com/41265413/117537023-07761f80-b031-11eb-86bc-eb41860768d9.png)
+
 
 使用 Remax 开发微信小程序。
 
