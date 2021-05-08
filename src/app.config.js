@@ -1,7 +1,7 @@
 module.exports = {
   pages: ['pages/notes/index', 'pages/me/index'],
   window: {
-    navigationBarTitleText: 'Remax Wechat Template',
+    navigationBarTitleText: "Innei's 日记本",
     navigationBarBackgroundColor: '#282c34',
   },
   tabBar: {

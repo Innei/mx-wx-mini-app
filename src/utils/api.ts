@@ -1,5 +1,6 @@
 import { PipeLine, PipeLineHandler } from './pipeline'
 
+export type RequestMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT'
 type Context = {
   request: any
   response:
@@ -32,7 +33,7 @@ class ResponseError extends Error {
 }
 
 const BASE_URL = 'https://api.innei.ren/v1'
-interface RequestOption {
+export interface RequestOption {
   data: any
   params: Record<string, any> | URLSearchParams
 }
@@ -52,8 +53,40 @@ class RequestBus {
 
   constructor(private baseUrl: string) {}
 
-  public urlBuilder(relativePath: string) {
+  private urlBuilder(relativePath: string) {
     return this.baseUrl + relativePath
+  }
+
+  // public request(
+  //   method: RequestMethodType,
+  //   path: string,
+  //   options?: RequestOption,
+  // ) {
+  //   return this.get(path, { ...options, method })
+  // }
+
+  async request(
+    method: RequestMethodType,
+    url: string,
+    option: Partial<RequestOption> = {},
+  ) {
+    url = this.urlBuilder(url)
+    let { data, params } = option
+
+    if (params) {
+      if (params instanceof URLSearchParams) {
+        url = url + '?' + params.toString()
+      } else {
+        url = url + '?' + new URLSearchParams(params).toString()
+      }
+    }
+    return this.dispatch({
+      url,
+      //@ts-ignore
+      method,
+      data: data,
+      ...this.baseOption,
+    })
   }
 
   // @ts-ignore
@@ -83,7 +116,7 @@ class RequestBus {
     this.beforeRequestPipeline.addPipe(cb)
   }
   //@ts-ignore
-  public dispatch(options: any) {
+  private dispatch(options: any) {
     const self = this
     return new Promise<Response>(
       // (r, j: (ag: Response & { message: string }) => any) => {
@@ -124,29 +157,13 @@ class RequestBus {
   }
 }
 
-;['GET', 'POST', 'PUT', 'DELETE'].forEach((method) => {
+;(['GET', 'POST', 'PUT', 'DELETE'] as RequestMethodType[]).forEach((method) => {
   RequestBus.prototype[method.toLowerCase()] = async function (
     this: RequestBus,
     url: string,
     option: Partial<RequestOption> = {},
   ) {
-    url = this.urlBuilder(url)
-    let { data, params } = option
-
-    if (params) {
-      if (params instanceof URLSearchParams) {
-        url = url + '?' + params.toString()
-      } else {
-        url = url + '?' + new URLSearchParams(params).toString()
-      }
-    }
-    return this.dispatch({
-      url,
-      //@ts-ignore
-      method,
-      data: data,
-      ...this.baseOption,
-    })
+    return this.request(method, url, option)
   }
 })
 

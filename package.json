@@ -15,6 +15,8 @@
     "lodash-es": "4.17.21",
     "react": "^16.14.0",
     "react-markdown": "6.0.2",
+    "rehype-raw": "5.1.0",
+    "remark-gfm": "1.0.0",
     "remax": "^2.9.1",
     "weui-miniprogram": "1.0.8"
   },
