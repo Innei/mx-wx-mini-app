@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "lodash-es": "4.17.21",
+    "normalize.css": "8.0.1",
     "react": "^16.14.0",
     "react-markdown": "6.0.2",
     "rehype-raw": "5.1.0",

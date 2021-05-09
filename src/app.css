@@ -1,2 +1,71 @@
-page {
+:root {
+  --red: #ea644a;
+  --yellow: #ffb03a;
+  --blue: #3498db;
+  --green: #27a17e;
+  --gray: #ccc;
+}
+/* fucking wechat , add so much  !important */
+button {
+  outline: 0 !important;
+  font: inherit !important;
+  border: 0 !important;
+  color: inherit !important;
+  cursor: pointer !important;
+  background-color: #3498db !important;
+  color: #fff !important;
+  padding: 0.5em 1em;
+  border-radius: 2em;
+  display: inline-block !important;
+  border: 2rpx solid transparent !important;
+}
+
+button:hover {
+  color: inherit !important;
+}
+
+/* -- 禁用的按钮 */
+button[disabled] {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+}
+
+/* -- 按钮尺寸 */
+button.small {
+  font-size: 0.85em !important;
+}
+button.middle,
+button.large {
+  padding: 0.75em 1.5em !important;
+}
+button.large {
+  font-size: 1.2em !important;
+}
+
+/* -- 按钮颜色 */
+button.red,
+button.yellow,
+button.blue,
+button.green {
+  color: #fff !important;
+}
+
+button.red {
+  background: #ea644a !important;
+  background: var(--red) !important;
+}
+button.yellow {
+  background: #ffb03a !important;
+  background: var(--yellow) !important;
+}
+button.blue {
+  background: #3498db !important;
+  background: var(--blue);
+}
+button.green {
+  background: #27a17e !important;
+  background: var(--green) !important;
+}
+button.transparent {
+  background: transparent !important;
 }

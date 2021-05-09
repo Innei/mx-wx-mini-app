@@ -5,6 +5,7 @@ import { Markdown } from '../../components/markdown'
 import { useApi } from '../../hooks/use-api'
 import { PaddingLayout } from '../../layout/padding'
 // import Button from
+import Loading from 'weui-miniprogram/miniprogram_dist/loading/loading'
 export default () => {
   const [url, setUrl] = useState('/notes/latest')
   const [isLoading, { data, next, prev }] = useApi(url)
@@ -14,9 +15,25 @@ export default () => {
   const fetch = (nid: number) => {
     setUrl('/notes/nid/' + nid)
   }
+
+  // React.useEffect(() => {
+  //   const onCopyUrl: WechatMiniprogram.OnCopyUrlCallback = (res) => {
+
+  //     return {...res, }
+  //   }
+
+  //   wx.onCopyUrl(onCopyUrl)
+  //   return () => {
+  //     wx.offCopyUrl(onCopyUrl)
+  //   }
+  // }, [])
   return (
     <View>
-      {!isLoading && (
+      {isLoading ? (
+        <View style={{ marginTop: '5em' }}>
+          <Loading type="circle" />
+        </View>
+      ) : (
         <PaddingLayout>
           <View>
             <Text style={{ fontSize: '1.5em', fontWeight: 'lighter' }}>
