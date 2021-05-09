@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useState } from 'react'
 import { View, Text, Button } from 'remax/wechat'
+import { useAppEvent } from 'remax/macro'
 import { Markdown } from '../../components/markdown'
 import { useApi } from '../../hooks/use-api'
 import { PaddingLayout } from '../../layout/padding'
@@ -15,6 +16,22 @@ export default () => {
   const fetch = (nid: number) => {
     setUrl('/notes/nid/' + nid)
   }
+
+  useAppEvent('onShareAppMessage', () => {
+    return {
+      title: title,
+      path: '/page/user?id=123',
+    }
+  })
+
+  useAppEvent('onShareTimeline', () => {
+    // console.log(title)
+
+    return {
+      title: title,
+      imageUrl: '',
+    }
+  })
 
   // React.useEffect(() => {
   //   const onCopyUrl: WechatMiniprogram.OnCopyUrlCallback = (res) => {
