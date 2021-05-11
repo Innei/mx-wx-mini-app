@@ -20,7 +20,7 @@ export default () => {
   useAppEvent('onShareAppMessage', () => {
     return {
       title: title,
-      path: '/page/user?id=123',
+      path: '/notes/' + nid,
     }
   })
 
