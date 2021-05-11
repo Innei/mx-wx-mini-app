@@ -16,9 +16,20 @@ const renderers: () => Partial<NormalComponents & SpecialComponents> = () => {
   return {
     p(h) {
       return (
-        <View style={{ margin: '1em 0', wordBreak: 'break-all' }}>
-          {h.children}
-        </View>
+        <React.Fragment>
+          {React.Children.map(h.children, (props) => {
+            if (typeof props === 'string') {
+              return <Text style={{ wordBreak: 'break-all' }}>{props}</Text>
+              // HACK
+              // @ts-ignore
+            } else if (props?.key.startsWith('img')) {
+              return <View>{props}</View>
+            } else {
+              return props
+            }
+          })}
+          <View style={{ paddingTop: '1em' }} />
+        </React.Fragment>
       )
     },
     strong(props) {
@@ -68,18 +79,20 @@ const renderers: () => Partial<NormalComponents & SpecialComponents> = () => {
     img(props: { node: any; src: string; alt: string }) {
       images.push(props.src)
       return (
-        <Image
-          src={props.src}
-          mode="aspectFill"
-          lazyLoad
-          webp
-          onClick={() => {
-            wx.previewImage({
-              urls: images,
-              current: props.src,
-            })
-          }}
-        />
+        <View style={{ textAlign: 'center' }}>
+          <Image
+            src={props.src}
+            mode="aspectFill"
+            lazyLoad
+            webp
+            onClick={() => {
+              wx.previewImage({
+                urls: images,
+                current: props.src,
+              })
+            }}
+          />
+        </View>
       )
     },
     a(props) {
@@ -125,6 +138,7 @@ const renderers: () => Partial<NormalComponents & SpecialComponents> = () => {
 
       return <Text>{props.children}</Text>
     },
+
     text(props) {
       const { className } = props
       return <Text className={styles[className]}>{props.children}</Text>

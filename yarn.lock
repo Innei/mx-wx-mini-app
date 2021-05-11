@@ -1320,6 +1320,11 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@types/wechat-miniprogram@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@types/wechat-miniprogram/-/wechat-miniprogram-3.3.0.tgz#e56cca3caecc09c7440ea9d3cc35b9617bcbc559"
+  integrity sha512-kNG8HAB3M8+0L2I4KrHTC5ZLOW4RLY16yT7EVLKU4QZGiPt9wCPrpFpA0OG/8bTC8ToP2nl8JZFj+3+Fo8IlTw==
+
 "@types/yargs-parser@*":
   version "20.2.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-20.2.0.tgz#dd3e6699ba3237f0348cd085e4698780204842f9"
