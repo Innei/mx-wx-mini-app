@@ -4,9 +4,11 @@ import { Markdown } from '../../components/markdown'
 import { useApi } from '../../hooks/use-api'
 import { PaddingLayout } from '../../layout/padding'
 import Loading from 'weui-miniprogram/miniprogram_dist/loading/loading'
+import { client } from '../../utils/api'
 export default () => {
-  // console.log(data)
-  const [loading, { data }] = useApi('/pages/slug/about')
+  const [loading, data] = useApi(
+    React.useCallback(() => client.page.getBySlug('about'), []),
+  )
   const text = data?.text ?? ''
   return (
     <View>

@@ -12,17 +12,20 @@
     "build": "cross-env NODE_ENV=production remax build -t wechat"
   },
   "dependencies": {
+    "@mx-space/api-client": "0.3.7",
     "lodash-es": "4.17.21",
     "normalize.css": "8.0.1",
-    "react": "^16.14.0",
+    "react": "^17.0.2",
     "react-markdown": "6.0.2",
     "rehype-raw": "5.1.0",
     "remark-gfm": "1.0.0",
     "remax": "^2.9.1",
-    "weui-miniprogram": "1.0.8"
+    "url-polyfill": "1.1.12",
+    "url-search-params-polyfill": "8.1.1",
+    "weui-miniprogram": "1.2.2"
   },
   "devDependencies": {
-    "@types/wechat-miniprogram": "3.3.0",
+    "@types/wechat-miniprogram": "3.4.0",
     "cross-env": "^7.0.2"
   }
 }

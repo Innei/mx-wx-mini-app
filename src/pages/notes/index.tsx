@@ -7,14 +7,19 @@ import { useApi } from '../../hooks/use-api'
 import { PaddingLayout } from '../../layout/padding'
 // import Button from
 import Loading from 'weui-miniprogram/miniprogram_dist/loading/loading'
+import { client } from '../../utils/api'
 export default () => {
-  const [url, setUrl] = useState('/notes/latest')
-  const [isLoading, { data, next, prev }] = useApi(url)
+  const [id, setId] = useState<string | number>('latest')
+  const [isLoading, { data, next, prev }] = useApi(
+    id === 'latest'
+      ? client.note.getLatest
+      : React.useCallback(() => client.note.getNoteById(id), []),
+  )
   const { nid = 1, text = '', title = '' } = data || {}
   const hasNextPage = prev
   const hasPrevPage = next
   const fetch = (nid: number) => {
-    setUrl('/notes/nid/' + nid)
+    setId(nid)
   }
 
   useAppEvent('onShareAppMessage', () => {
@@ -25,25 +30,12 @@ export default () => {
   })
 
   useAppEvent('onShareTimeline', () => {
-    // console.log(title)
-
     return {
       title: title,
       imageUrl: '',
     }
   })
 
-  // React.useEffect(() => {
-  //   const onCopyUrl: WechatMiniprogram.OnCopyUrlCallback = (res) => {
-
-  //     return {...res, }
-  //   }
-
-  //   wx.onCopyUrl(onCopyUrl)
-  //   return () => {
-  //     wx.offCopyUrl(onCopyUrl)
-  //   }
-  // }, [])
   return (
     <View>
       {isLoading ? (

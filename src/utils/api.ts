@@ -1,5 +1,12 @@
 import { PipeLine, PipeLineHandler } from './pipeline'
-
+import {
+  allControllers,
+  createClient,
+  IController,
+  IRequestAdapter,
+} from '@mx-space/api-client'
+import 'url-search-params-polyfill'
+import 'url-polyfill'
 export type RequestMethodType = 'GET' | 'POST' | 'DELETE' | 'PUT'
 type Context = {
   request: any
@@ -32,10 +39,10 @@ class ResponseError extends Error {
   }
 }
 
-const BASE_URL = 'https://api.innei.ren/v1'
+const BASE_URL = 'https://api.innei.ren/v2'
 export interface RequestOption {
-  data: any
-  params: Record<string, any> | URLSearchParams
+  data?: any
+  params?: Record<string, any> | URLSearchParams
 }
 interface Response {
   data: any
@@ -51,19 +58,13 @@ class RequestBus {
     enableCache: false,
   })
 
-  constructor(private baseUrl: string) {}
+  constructor(private baseUrl?: string) {}
 
   private urlBuilder(relativePath: string) {
-    return this.baseUrl + relativePath
+    return this.baseUrl
+      ? new URL(relativePath, this.baseUrl).toString()
+      : relativePath
   }
-
-  // public request(
-  //   method: RequestMethodType,
-  //   path: string,
-  //   options?: RequestOption,
-  // ) {
-  //   return this.get(path, { ...options, method })
-  // }
 
   async request(
     method: RequestMethodType,
@@ -118,42 +119,32 @@ class RequestBus {
   //@ts-ignore
   private dispatch(options: any) {
     const self = this
-    return new Promise<Response>(
-      // (r, j: (ag: Response & { message: string }) => any) => {
-      async (r, j) => {
-        const req = wx.request({
-          ...(await this.beforeRequestPipeline.handle({ options })).options,
-          // async success(res) {},
-          // fail(err) {
-          //   console.log(err)
+    return new Promise<Response>(async (r, j) => {
+      const req = wx.request({
+        ...(await this.beforeRequestPipeline.handle({ options })).options,
 
-          //   j(err.errMsg)
-          // },
-          async complete(res, ...rest) {
-            // console.log(res, ...rest)
+        async complete(res, ...rest) {
+          const handled = await self.afterResponsePipeline.handle({
+            request: req,
+            response: res,
+            options: options,
+          })
 
-            const handled = await self.afterResponsePipeline.handle({
-              request: req,
-              response: res,
-              options: options,
-            })
-            // console.log('handle', handled)
-            if (
-              handled.response.error ||
-              handled.response.errMsg !== 'request:ok' ||
-              !handled.response.statusCode.toString().startsWith('2')
-            ) {
-              return j(new ResponseError(handled))
-            }
-            r({
-              data: handled.response.data,
-              status: handled.response.statusCode,
-              ctx: handled,
-            })
-          },
-        })
-      },
-    )
+          if (
+            handled.response.error ||
+            handled.response.errMsg !== 'request:ok' ||
+            !handled.response.statusCode.toString().startsWith('2')
+          ) {
+            return j(new ResponseError(handled))
+          }
+          r({
+            data: handled.response.data,
+            status: handled.response.statusCode,
+            ctx: handled,
+          })
+        },
+      })
+    })
   }
 }
 
@@ -167,4 +158,27 @@ class RequestBus {
   }
 })
 
-export const $api = new RequestBus(BASE_URL)
+const $api = new RequestBus()
+
+const adaptor: IRequestAdapter = {
+  default: $api,
+  get(url, options) {
+    return $api.get(url, options)
+  },
+  post(url, options) {
+    return $api.get(url, options)
+  },
+  put(url, options) {
+    return $api.get(url, options)
+  },
+  delete(url, options) {
+    return $api.get(url, options)
+  },
+  patch(url, options) {
+    return $api.get(url, options)
+  },
+}
+
+export const client = createClient(adaptor)(BASE_URL, {
+  controllers: [...allControllers],
+})
