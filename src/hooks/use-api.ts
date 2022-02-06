@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react'
-import { client, RequestMethodType, RequestOption } from '../utils/api'
+import { client } from '../utils/api'
 
 export function useApi<T = any>(path: string): [boolean, T]
 export function useApi<T extends (...args: any) => Promise<any>>(
   caller: T,
+  ...args: (string | number)[]
 ): [boolean, Awaited<ReturnType<T>>]
 
-export function useApi(params: Function | string) {
+export function useApi(params: Function | string, ...args: any[]) {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState<any>({})
+
   useEffect(() => {
     setLoading(true)
 
@@ -25,12 +27,13 @@ export function useApi(params: Function | string) {
       })
     } else {
       const caller = params
-      caller().then((data) => {
+
+      caller.call(this, ...args).then((data) => {
         setData(data)
         setLoading(false)
       })
     }
-  }, [params])
+  }, [params, args.join('-')])
 
   return [loading, data] as const
 }

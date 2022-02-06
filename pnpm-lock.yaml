@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@mx-space/api-client': 0.3.7
+  '@mx-space/api-client': 0.4.0
   '@types/wechat-miniprogram': 3.4.0
   cross-env: ^7.0.2
   lodash-es: 4.17.21
@@ -16,7 +16,7 @@ specifiers:
   weui-miniprogram: 1.2.2
 
 dependencies:
-  '@mx-space/api-client': 0.3.7
+  '@mx-space/api-client': 0.4.0
   lodash-es: 4.17.21
   normalize.css: 8.0.1
   react: 17.0.2
@@ -1325,8 +1325,8 @@ packages:
       react-is: 16.13.1
     dev: false
 
-  /@mx-space/api-client/0.3.7:
-    resolution: {integrity: sha512-U9AoVDfedmVIHkxpz4SowoyNra2vLVkAZ33bwNe3rdkMsDqmO27aUPY63MiA1NHpyDcKVGy/iR8ESAeht00apw==}
+  /@mx-space/api-client/0.4.0:
+    resolution: {integrity: sha512-+eRx4dptq62yoSzf9NKywzJ7+2lbwYQOv2syWEzTqkuyB6u+YT4Y91pzfaHs0+ZxieOWr9gtoyV0dm4G7Taszw==}
     engines: {pnpm: '>=6'}
     dependencies:
       camelcase-keys: 7.0.1

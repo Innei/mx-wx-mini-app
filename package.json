@@ -12,7 +12,7 @@
     "build": "cross-env NODE_ENV=production remax build -t wechat"
   },
   "dependencies": {
-    "@mx-space/api-client": "0.3.7",
+    "@mx-space/api-client": "0.4.0",
     "lodash-es": "4.17.21",
     "normalize.css": "8.0.1",
     "react": "^17.0.2",

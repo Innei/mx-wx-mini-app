@@ -1,19 +1,17 @@
 import * as React from 'react'
 import { useState } from 'react'
-import { View, Text, Button } from 'remax/wechat'
 import { useAppEvent } from 'remax/macro'
+import { Button, Text, View } from 'remax/wechat'
+import Loading from 'weui-miniprogram/miniprogram_dist/loading/loading'
 import { Markdown } from '../../components/markdown'
 import { useApi } from '../../hooks/use-api'
 import { PaddingLayout } from '../../layout/padding'
-// import Button from
-import Loading from 'weui-miniprogram/miniprogram_dist/loading/loading'
 import { client } from '../../utils/api'
 export default () => {
   const [id, setId] = useState<string | number>('latest')
   const [isLoading, { data, next, prev }] = useApi(
-    id === 'latest'
-      ? client.note.getLatest
-      : React.useCallback(() => client.note.getNoteById(id), []),
+    id === 'latest' ? client.note.getLatest : client.note.getNoteById,
+    id,
   )
   const { nid = 1, text = '', title = '' } = data || {}
   const hasNextPage = prev
